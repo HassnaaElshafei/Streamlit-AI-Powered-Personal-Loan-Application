@@ -2,7 +2,8 @@ import streamlit as st
 
 # Sidebar with logo and navigation in boxes
 def sidebar():
-    st.sidebar.image("bank_logo.png", use_container_width=True)
+    logo_url = "https://raw.githubusercontent.com/HassnaaElshafei/Streamlit-AI-Powered-Personal-Loan-Application/main/bank_logo.png"
+    st.sidebar.image(logo_url, use_container_width=True)
     st.sidebar.title("Navigation")
     
     # Create boxes for navigation
