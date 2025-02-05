@@ -1,8 +1,4 @@
-streamlit 
-json
-tempfile
-os 
-sqlite3
-google.ai.generativelanguage_v1beta.types
-google.generativeai 
-content
+streamlit
+google-generativeai
+protobuf
+pillow
