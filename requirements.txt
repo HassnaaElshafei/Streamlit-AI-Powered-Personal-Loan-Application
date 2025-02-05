@@ -1,10 +1,11 @@
 streamlit
 google-generativeai
 google-ai-generativelanguage
+protobuf
+pillow
 requests
 pandas
 numpy
-protobuf
 grpcio
 grpcio-status
 google-auth
