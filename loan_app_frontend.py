@@ -28,6 +28,34 @@ def sidebar():
 def applicant_information():
     st.markdown("<h1><u>Applicant Information</u></h1>", unsafe_allow_html=True)
 
+    st.markdown("### Applicant Details")
+    col1, col2 = st.columns(2)
+    with col1:
+        full_name = st.text_input("Full Name")
+        dob = st.date_input("Date of Birth")
+        gender = st.selectbox("Gender", ["Male", "Female", "Other"])
+    with col2:
+        national_id = st.text_input("National ID (14-digit)")
+        marital_status = st.selectbox("Marital Status", ["Single", "Married", "Divorced", "Widowed"])
+
+    st.markdown("### Address")
+    col1, col2 = st.columns(2)
+    with col1:
+        street = st.text_input("Street")
+        city = st.text_input("City")
+    with col2:
+        district = st.text_input("District")
+        governorate = st.text_input("Governorate")
+    country = st.text_input("Country", value="Egypt")
+
+    st.markdown("### Contact Information")
+    col1, col2 = st.columns(2)
+    with col1:
+        email = st.text_input("Email")
+        home_phone = st.text_input("Home Phone (Optional)")
+    with col2:
+        mobile = st.text_input("Mobile Number")
+
     if st.button("Submit Application"):
         st.success("Application submitted successfully!")
 
