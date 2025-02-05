@@ -4,23 +4,25 @@ import tempfile
 import os
 from backend_functions import extract_document_info, save_to_database, detect_document_type
 
-# Sidebar for navigation
+# Initialize session state for page navigation
+if "page" not in st.session_state:
+    st.session_state.page = "Applicant Information"
+
+if "extracted_info" not in st.session_state:
+    st.session_state.extracted_info = None
+
+# Sidebar for navigation using session state
 def sidebar():
     logo_url = "https://raw.githubusercontent.com/HassnaaElshafei/Streamlit-AI-Powered-Personal-Loan-Application/main/bank_logo.png"
     st.sidebar.image(logo_url, use_container_width=True)
     st.sidebar.title("Navigation")
 
-    applicant_btn = st.sidebar.button("Applicant Information")
-    document_btn = st.sidebar.button("Document Upload")
-    results_btn = st.sidebar.button("Results")
-
-    if applicant_btn:
-        return "Applicant Information"
-    elif document_btn:
-        return "Document Upload"
-    elif results_btn:
-        return "Results"
-    return "Applicant Information"
+    if st.sidebar.button("Applicant Information"):
+        st.session_state.page = "Applicant Information"
+    if st.sidebar.button("Document Upload"):
+        st.session_state.page = "Document Upload"
+    if st.sidebar.button("Results"):
+        st.session_state.page = "Results"
 
 # Page 1: Applicant Information
 def applicant_information():
@@ -33,9 +35,6 @@ def applicant_information():
 def document_upload():
     st.markdown("<h1><u>Document Upload</u></h1>", unsafe_allow_html=True)
     st.markdown("Please upload PDF or JPG files only.")
-
-    if "extracted_info" not in st.session_state:
-        st.session_state.extracted_info = None
 
     documents = {
         "HR Letter": "Upload HR Letter",
@@ -78,6 +77,7 @@ def document_upload():
 
             os.unlink(tmp_file_path)
 
+    # Display extracted info in a collapsible popup-style box
     if st.session_state.extracted_info:
         with st.expander("🔍 Extracted Information (Click to Expand/Close)"):
             st.json(st.session_state.extracted_info)
@@ -92,14 +92,15 @@ def results():
     st.markdown("<h1><u>Results</u></h1>", unsafe_allow_html=True)
     st.info("Please process the application to view results.")
 
+# Main app
 def main():
-    page = sidebar()
+    sidebar()
 
-    if page == "Applicant Information":
+    if st.session_state.page == "Applicant Information":
         applicant_information()
-    elif page == "Document Upload":
+    elif st.session_state.page == "Document Upload":
         document_upload()
-    elif page == "Results":
+    elif st.session_state.page == "Results":
         results()
 
 if __name__ == "__main__":
