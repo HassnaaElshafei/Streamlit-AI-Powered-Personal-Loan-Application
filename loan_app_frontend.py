@@ -26,34 +26,6 @@ def sidebar():
 def applicant_information():
     st.markdown("<h1><u>Applicant Information</u></h1>", unsafe_allow_html=True)
 
-    st.markdown("### Applicant Details")
-    col1, col2 = st.columns(2)
-    with col1:
-        full_name = st.text_input("Full Name")
-        dob = st.date_input("Date of Birth")
-        gender = st.selectbox("Gender", ["Male", "Female", "Other"])
-    with col2:
-        national_id = st.text_input("National ID (14-digit)")
-        marital_status = st.selectbox("Marital Status", ["Single", "Married", "Divorced", "Widowed"])
-
-    st.markdown("### Address")
-    col1, col2 = st.columns(2)
-    with col1:
-        street = st.text_input("Street")
-        city = st.text_input("City")
-    with col2:
-        district = st.text_input("District")
-        governorate = st.text_input("Governorate")
-    country = st.text_input("Country", value="Egypt")
-
-    st.markdown("### Contact Information")
-    col1, col2 = st.columns(2)
-    with col1:
-        email = st.text_input("Email")
-        home_phone = st.text_input("Home Phone (Optional)")
-    with col2:
-        mobile = st.text_input("Mobile Number")
-
     if st.button("Submit Application"):
         st.success("Application submitted successfully!")
 
@@ -68,7 +40,9 @@ def document_upload():
     documents = {
         "HR Letter": "Upload HR Letter",
         "National ID": "Upload National ID (Both Sides in One File)",
-        "Utility Receipt": "Upload Utility Receipt"
+        "Utility Receipt": "Upload Utility Receipt",
+        "Bank Statement": "Upload Bank Statement",
+        "Employer's Salary Transfer Commitment": "Upload Salary Transfer Commitment"
     }
 
     for doc, label in documents.items():
@@ -83,16 +57,13 @@ def document_upload():
             st.write(f"Detected Document Type: {document_type}")
 
             try:
-                if document_type == "national_id_front" or document_type == "national_id_back":
+                if document_type in ["national_id_front", "national_id_back"]:
                     extracted_front = extract_document_info(tmp_file_path, "national_id_front")
                     extracted_back = extract_document_info(tmp_file_path, "national_id_back")
 
-                    extracted_info_front = json.loads(extracted_front)
-                    extracted_info_back = json.loads(extracted_back)
-
                     extracted_info_dict = {
-                        "Front Side Information": extracted_info_front,
-                        "Back Side Information": extracted_info_back
+                        "Front Side Information": json.loads(extracted_front),
+                        "Back Side Information": json.loads(extracted_back)
                     }
                 else:
                     extracted_info = extract_document_info(tmp_file_path, document_type)
@@ -112,6 +83,9 @@ def document_upload():
             st.json(st.session_state.extracted_info)
             if st.button("❌ Close Extracted Info"):
                 st.session_state.extracted_info = None
+
+    if st.button("Process Application"):
+        st.success("Documents processed successfully!")
 
 # Page 3: Results
 def results():
