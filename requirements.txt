@@ -11,3 +11,7 @@ grpcio-status
 google-auth
 google-auth-httplib2
 google-api-python-client
+sqlite3
+json
+os
+tempfile
